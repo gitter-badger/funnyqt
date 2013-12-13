@@ -37,14 +37,254 @@
 <h1>
 <a name="welcome" class="anchor" href="#welcome"><span class="octicon octicon-link"></span></a>Welcome!</h1>
 
-<p>FunnyQT is a model querying and transformation library designed as an API and embedded DSL in Clojure.  It supports <a href="http://jgralab.github.io">JGraLab</a> graphs and <a href="http://www.eclipse.org/modeling/emf/">EMF</a> models.</p>
+<p>FunnyQT is a model querying and transformation library.  It currently supports
+the <a href="http://jgralab.github.io/jgralab">Java Graph Laboratory</a> and the
+<a href="http://www.eclipse.org/modeling/emf/">Eclipse Modeling Framework</a>.</p>
 
-<p>For getting further information about FunnyQT visit its <a href="http://github.com/jgralab/funnyqt">project page</a>.</p>
+<p>Current build status: <a href="http://travis-ci.org/jgralab/funnyqt"><img src="https://secure.travis-ci.org/jgralab/funnyqt.png" alt="Build Status"></a></p>
+
+<h1>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h1>
+
+<p>Check out the <a href="#funnyqt-overview">overview description</a>, the
+<a href="#api-documentation">generated API documentation</a>, and the
+<a href="#publications">papers about FunnyQT</a>.</p>
 
 <h2>
+<a name="funnyqt-overview" class="anchor" href="#funnyqt-overview"><span class="octicon octicon-link"></span></a>FunnyQT Overview</h2>
+
+<p>The FunnyQT API is structured into the following sub-APIs realized in several
+namespaces.</p>
+
+<p>The foundation is an extensive <strong>core API</strong> providing typical <em>model management
+services</em> such as creating, loading, and storing models, accessing, creating,
+and deleting model elements, and accessing model element properties.  The core
+API is subdivided into two framework-specific namespaces (EMF or JGraLab) and
+one namespace providing functions working with either kind of model
+representation.</p>
+
+<ul>
+<li>
+<em>funnyqt.emf</em>: The EMF-specific core API</li>
+<li>
+<em>funnyqt.tg</em>: The TGraph-specific core API (JGraLab)</li>
+<li>
+<em>funnyqt.protocols</em>: Core functions working with both kinds of models/model
+elements</li>
+</ul><p>The <strong>functional querying API</strong> builds upon the core API and provides features
+such as navigation inside models in terms of role names, quantified
+expressions, and <em>regular path expressions</em>.  Like the core API, some
+framework-specific parts are outsourced into their own two querying namespaces.</p>
+
+<ul>
+<li>
+<em>funnyqt.query</em>: Generic querying services such as quantified expressions,
+sorting functions, and generic regular path operators.</li>
+<li>
+<em>funnyqt.query.emf</em>: EMF-specific regular path operators</li>
+<li>
+<em>funnyqt.query.tg</em>: TGraph-specific regular path operators</li>
+</ul><p>FunnyQT's <strong>polymorphic function API</strong> provides constructs for defining
+functions dispatching on metamodel type.</p>
+
+<ul>
+<li>
+<em>funnyqt.polyfns</em>: Polymorphic function API</li>
+</ul><p>The <em>pattern-matching API</em> provides constructs for defining patterns using node
+and edge symbols.  When a pattern is called on some model, it returns a lazy
+sequence of all matches in the model.</p>
+
+<ul>
+<li>
+<em>funnyqt.pmatch</em>: Pattern-matching in models</li>
+</ul><p>Based on the pattern-matching API, there's a <strong>in-place transformation API</strong>
+that allows to define rules consisting of a pattern and a sequence of actions.
+When a rule is invoked, it searches for a match in the model and applies its
+actions to it.  Typical control structures such as as-long-as-possible
+application of a rule are provided as higher-order functions.</p>
+
+<ul>
+<li>
+<em>funnyqt.in-place</em>: In-place transformations</li>
+</ul><p>FunnyQT provides two kinds of <em>model transformation APIs</em>.  The <strong>extensional
+model transformation API</strong> builds upon GReTL's concepts of extensional
+semantics and is an operational transformation API, whereas the <strong>model2model
+API</strong> realizes a rule-based approach to model transformations.</p>
+
+<ul>
+<li>
+<em>funnyqt.extensional</em>: Generic parts of the extensional model
+transformation API</li>
+<li>
+<em>funnyqt.extensional.emf</em>: The EMF-specific parts of the extensional model
+transformation API</li>
+<li>
+<em>funnyqt.extensional.tg</em>: The TGraph-specific parts of the extensional
+model transformation API</li>
+<li>
+<em>funnyqt.model2model</em>: The rule-based model transformation API</li>
+</ul><p>The <strong>relational querying API</strong> allows for Prolog-like logical querying of
+models using the <a href="http://github.com/clojure/core.logic">core.logic</a> library.</p>
+
+<ul>
+<li>
+<em>funnyqt.relational</em>: Generic relations</li>
+<li>
+<em>funnyqt.relational.emf</em>: EMF-specific relations</li>
+<li>
+<em>funnyqt.relational.tg</em>: TGraph-specific relations</li>
+</ul><p>Based on the relational querying API, there's a <strong>bidirectional transformation
+API</strong>.  Such a transformation specifies correspondences between a left and a
+right model in terms of relations between elements in those models.  Such a
+transformation can be used to generate a new right model from a given left
+model and vice versa.  Additionally, it can be used to synchronize between two
+existing models in either direction.</p>
+
+<p>Finally, there are some <strong>utility and helper APIs</strong>.</p>
+
+<ul>
+<li>
+<em>funnyqt.utils</em>: Generic utility functions</li>
+<li>
+<em>funnyqt.visualization</em>: Visualizing models using
+<a href="http://www.graphviz.org/">GraphViz</a>
+</li>
+<li>
+<em>funnyqt.xmltg</em>: Converting arbitrary XML documents to DOM-like TGraphs and
+back again</li>
+</ul><h2>
 <a name="api-documentation" class="anchor" href="#api-documentation"><span class="octicon octicon-link"></span></a>API Documentation</h2>
 
-<p>The FunnyQT API docs are <a href="http://userpages.uni-koblenz.de/%7Ehorn/funnyqt-docs/">here</a>.</p>
+<p>The FunnyQT API docs generated for the current release are
+<a href="http://userpages.uni-koblenz.de/%7Ehorn/funnyqt-docs/">here</a>.</p>
+
+<h2>
+<a name="publications" class="anchor" href="#publications"><span class="octicon octicon-link"></span></a>Publications</h2>
+
+<ul>
+<li><p><em>Model Querying with FunnyQT</em>, Tassilo Horn,
+<a href="http://www.model-transformation.org/ICMT2013/">ICMT 2013</a>,
+<a href="http://dx.doi.org/10.1007/978-3-642-38883-5_7">http://dx.doi.org/10.1007/978-3-642-38883-5_7</a></p></li>
+<li><p><em>Solving the TTC 2013 Flowgraphs Case with FunnyQT</em>, Tassilo Horn,
+<a href="http://planet-sl.org/ttc2013">TTC 2013</a>,
+<a href="http://dx.doi.org/10.4204/EPTCS.135.7">http://dx.doi.org/10.4204/EPTCS.135.7</a></p></li>
+<li><p><em>Solving the Class Diagram Restructuring Transformation Case with FunnyQT</em>,
+Tassilo Horn, <a href="http://planet-sl.org/ttc2013">TTC 2013</a>,
+<a href="http://dx.doi.org/10.4204/EPTCS.135.9">http://dx.doi.org/10.4204/EPTCS.135.9</a></p></li>
+<li><p><em>Solving the Petri-Nets to Statecharts Transformation Case with FunnyQT</em>,
+Tassilo Horn, <a href="http://planet-sl.org/ttc2013">TTC 2013</a>,
+<a href="http://dx.doi.org/10.4204/EPTCS.135.11">http://dx.doi.org/10.4204/EPTCS.135.11</a></p></li>
+</ul><h1>
+<a name="getting-funnyqt" class="anchor" href="#getting-funnyqt"><span class="octicon octicon-link"></span></a>Getting FunnyQT</h1>
+
+<p>There are two ways of getting FunnyQT.  When you want to use it for writing
+your own queries and transformations, you should
+<a href="#getting-a-release">get the latest release</a> available with Leiningen.  If you
+want to have the bleeding edge version from git, e.g., to validate that some
+bug has been fixed, see how to <a href="#getting-the-git-version">get the git version</a>.</p>
+
+<h2>
+<a name="getting-a-release" class="anchor" href="#getting-a-release"><span class="octicon octicon-link"></span></a>Getting a Release</h2>
+
+<p>If you don't intend to hack on FunnyQT itself but you just want to use it for
+writing queries and transformations, the easiest possibility is to use the
+latest FunnyQT release that's available via the
+<a href="http://clojars.org/funnyqt">Clojars Maven repository</a>.</p>
+
+<p>To create query/transformation project using FunnyQT, simply perform the
+following steps:</p>
+
+<ol>
+<li><p>Install the <code>lein</code> shell (or bat) script as explained on the
+<a href="http://leiningen.org">Leiningen</a> homepage.</p></li>
+<li>
+<p>Create a new project.</p>
+
+<pre><code>$ lein new my-funnyqt-transform
+Generating a project called my-funnyqt-transform based on the 'default' template.
+To see other templates (app, lein plugin, etc), try `lein help new`.
+</code></pre>
+</li>
+<li>
+<p>Declare that your project depends on FunnyQT.  Replace 0.13.0 below with
+whatever is the the <a href="http://clojars.org/funnyqt">current FunnyQT release</a>.</p>
+
+<pre><code>$ cd my-funnyqt-transform
+$ edit project.clj
+# add funnyqt in the project :dependencies
+(defproject my-funnyqt-transform "0.1.0-SNAPSHOT"
+  :description "FIXME: write description"
+  :url "http://example.com/FIXME"
+  :license {:name "Eclipse Public License"
+            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :dependencies [[org.clojure/clojure "1.5.1"]
+                 [funnyqt "0.13.0"]])
+</code></pre>
+</li>
+<li>
+<p>Now start a REPL and start hacking.  Leiningen will take care of fetching
+all dependencies such as Clojure and FunnyQT.</p>
+
+<pre><code>$ lein repl
+nREPL server started on port 39869 on host 127.0.0.1
+REPL-y 0.3.0
+Clojure 1.5.1
+    Docs: (doc function-name-here)
+          (find-doc "part-of-name-here")
+  Source: (source function-name-here)
+ Javadoc: (javadoc java-object-or-class-here)
+    Exit: Control+D or (exit) or (quit)
+ Results: Stored in vars *1, *2, *3, an exception in *e
+user=&gt; ;; Here you go!
+</code></pre>
+</li>
+</ol><h2>
+<a name="getting-the-git-version" class="anchor" href="#getting-the-git-version"><span class="octicon octicon-link"></span></a>Getting the Git Version</h2>
+
+<p>FunnyQT uses <a href="http://leiningen.org">Leiningen</a> for retrieving all its
+dependencies from various Maven repositories, building, publishing, and test
+automation.</p>
+
+<p>Getting started is really simple:</p>
+
+<ol>
+<li><p>Install the <code>lein</code> shell (or bat) script as explained on the
+<a href="http://leiningen.org">Leiningen</a> homepage.</p></li>
+<li>
+<p>Clone the FunnyQT git repository:</p>
+
+<pre><code>$ git clone https://github.com/jgralab/funnyqt.git
+</code></pre>
+</li>
+<li>
+<p>Just to be sure everything's fine, you might want to execute the test cases.</p>
+
+<pre><code>$ cd funnyqt
+$ lein test
+</code></pre>
+</li>
+<li>
+<p>You are ready to go.  Start a REPL and start hacking.</p>
+
+<pre><code>$ lein repl
+REPL started; server listening on localhost port 22815
+user=&gt; (use 'funnyqt.tg)
+nil
+user=&gt; (def g (load-graph "test/input/greqltestgraph.tg"))
+#&lt;Graph c06de1c7-f4ec0906-21cfbc86-28c31aa1 (1175): RouteMap&gt;&gt;
+user=&gt; (vseq g 'localities.City)
+(#&lt;v6: localities.City&gt; #&lt;v7: localities.City&gt; #&lt;v8: localities.City&gt;)
+</code></pre>
+</li>
+</ol><h1>
+<a name="getting-support" class="anchor" href="#getting-support"><span class="octicon octicon-link"></span></a>Getting Support</h1>
+
+<h2>
+<a name="contact-the-author" class="anchor" href="#contact-the-author"><span class="octicon octicon-link"></span></a>Contact the Author</h2>
+
+<p>FunnyQT is developed by Tassilo Horn (<a href="http://github.com/tsdh">tsdh</a>).  If you
+want, you can get in touch with me via <a href="mailto:horn@uni-koblenz.de">email</a>,
+<a href="#irc-channel">IRC</a>, or <a href="http://plus.google.com/u/0/+TassiloHorn">G+</a>.</p>
 
 <h2>
 <a name="irc-channel" class="anchor" href="#irc-channel"><span class="octicon octicon-link"></span></a>IRC Channel</h2>
@@ -55,11 +295,31 @@ install an IRC client, you can also
 <a href="http://webchat.freenode.net/?channels=jgralab">chat directly in your browser</a>.</p>
 
 <h2>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+<a name="found-a-bug" class="anchor" href="#found-a-bug"><span class="octicon octicon-link"></span></a>Found a Bug?</h2>
+
+<p>Although that should be quite impossible and is surely an error on your side
+<code>&gt;:)</code>, if you found a bug or miss an important feature, file a bug report in
+the <a href="http://github.com/jgralab/funnyqt/issues">FunnyQT issue tracker</a>.</p>
+
+<h1>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h1>
 
 <p>Copyright (C) 2011-2013 Tassilo Horn <a href="mailto:horn@uni-koblenz.de">horn@uni-koblenz.de</a> &amp; The JGraLab Team <a href="mailto:ist@uni-koblenz.de">ist@uni-koblenz.de</a></p>
 
-<p>Distributed under the <a href="http://www.gnu.org/copyleft/gpl.html">General Public License, Version 3</a>.</p>
+<p>Distributed under the
+<a href="http://www.gnu.org/copyleft/gpl.html">General Public License, Version 3</a> with
+the following additional grant:</p>
+
+<pre><code>Additional permission under GNU GPL version 3 section 7
+
+If you modify this Program, or any covered work, by linking or combining it
+with Eclipse (or a modified version of that program or an Eclipse plugin),
+containing parts covered by the terms of the Eclipse Public License (EPL),
+the licensors of this Program grant you additional permission to convey the
+resulting work.  Corresponding Source for a non-source form of such a
+combination shall include the source code for the parts of JGraLab used as
+well as that of the covered work.
+</code></pre>
 
 
 
