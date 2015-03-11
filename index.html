@@ -102,7 +102,7 @@ representation.</p>
 <em>funnyqt.tg</em>: The TGraph-specific core API (JGraLab)</li>
 <li>
 <em>funnyqt.generic</em>: Core functions working with both kinds of models/model
-elements</li>
+elements, and protocols extended on EMF and JGraLab interfaces</li>
 </ul>
 
 <p>The <strong>functional querying API</strong> builds upon the core API and provides features
@@ -128,9 +128,9 @@ functions dispatching on metamodel type.</p>
 <em>funnyqt.polyfns</em>: Polymorphic function API</li>
 </ul>
 
-<p>The <em>pattern-matching API</em> provides constructs for defining patterns using node
-and edge symbols.  When a pattern is called on some model, it returns a lazy
-sequence of all matches in the model.</p>
+<p>The <strong>pattern-matching API</strong> provides constructs for defining patterns using
+node and edge symbols.  When a pattern is called on some model, it returns a
+lazy sequence of all matches in the model.</p>
 
 <ul>
 <li>
@@ -145,7 +145,7 @@ application of a rule are provided as higher-order functions.</p>
 
 <ul>
 <li>
-<em>funnyqt.in-place</em>: In-place transformations</li>
+<em>funnyqt.in-place</em>: In-place transformations and state-space exploration</li>
 </ul>
 
 <p>FunnyQT provides two kinds of <em>model transformation APIs</em>.  The <strong>extensional
@@ -192,6 +192,16 @@ model in terms of relations between elements in those models.  Such a
 transformation can be used to generate a new right model from a given left
 model and vice versa.  Additionally, it can be used to synchronize between two
 existing models in either direction.</p>
+
+<p>For TGraphs, there is a <strong>co-evolution transformation API</strong>.</p>
+
+<ul>
+<li>
+<em>funnyqt.coevo.tg</em>: Co-evolution transformations</li>
+</ul>
+
+<p>Co-evolution transformations allow to evolve a schema and a conforming graph
+simultaneously at runtime.</p>
 
 <p>Finally, there are some <strong>utility and helper APIs</strong>.</p>
 
@@ -373,7 +383,7 @@ the <a href="http://github.com/jgralab/funnyqt/issues">FunnyQT issue tracker</a>
 <h1>
 <a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
 
-<p>Copyright (C) 2011-2014 Tassilo Horn <a href="mailto:horn@uni-koblenz.de">horn@uni-koblenz.de</a> &amp; The JGraLab Team <a href="mailto:ist@uni-koblenz.de">ist@uni-koblenz.de</a></p>
+<p>Copyright (C) 2011-2015 Tassilo Horn <a href="mailto:horn@uni-koblenz.de">horn@uni-koblenz.de</a> &amp; The JGraLab Team <a href="mailto:ist@uni-koblenz.de">ist@uni-koblenz.de</a></p>
 
 <p>Distributed under the
 <a href="http://www.gnu.org/copyleft/gpl.html">General Public License, Version 3</a> with
